@@ -22,24 +22,40 @@ namespace DatabaseWork
     public partial class MainWindow : Window
     {
         OleDbConnection cn;
+        
         public MainWindow()
         {
             InitializeComponent();
-            cn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\DB.accdb");
+            cn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\\DB.accdb");
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string query = "select * from Assets";
+
             OleDbCommand cmd = new OleDbCommand(query, cn);
+
             cn.Open();
+
             OleDbDataReader read = cmd.ExecuteReader();
+
+            
             string data = "";
+
             while (read.Read())
             {
                 data += read[0].ToString() + "\n";
+
             }
 
+            cn.Close();
+            datadisplay.Text = data;
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var block = sender as TextBlock;
+            
         }
     }
 }
